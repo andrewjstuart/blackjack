@@ -199,45 +199,44 @@ class Game:
     ) -> bool:
         if not game_over:
             if player_hand.get_value() > 21:
-                print("You busted. Dealer wins!", emoji.emojize(":frowning_face:"))
+                print(f"You busted. Dealer wins! {emoji.emojize(":frowning_face:")}")
                 Game.dealer_wins += 1
                 return True
             elif dealer_hand.get_value() > 21:
-                print("Dealer busted. You win!", emoji.emojize(":grinning_face:"))
+                print(f"Dealer busted. You win! {emoji.emojize(":grinning_face:")}")
                 Game.player_wins += 1
                 return True
             elif dealer_hand.is_blackjack() and player_hand.is_blackjack():
                 print(
-                    "Both players have BLACKJACK! Tie!", emoji.emojize(":neutral_face:")
+                    f"Both players have BLACKJACK! Tie! {emoji.emojize(":neutral_face:")}"
                 )
                 Game.game_ties += 1
                 return True
             elif player_hand.is_blackjack():
-                print("You have BLACKJACK! You win!", emoji.emojize(":party_popper:"))
+                print(f"You have BLACKJACK! You win! {emoji.emojize(":party_popper:")}")
                 Game.player_wins += 1
                 return True
             elif dealer_hand.is_blackjack():
                 print(
-                    "Dealer has BLACKJACK! Dealer wins!",
-                    emoji.emojize(":face_with_symbols_on_mouth:"),
+                    f"Dealer has BLACKJACK! Dealer wins! {emoji.emojize(":face_with_symbols_on_mouth:")}"
                 )
                 Game.dealer_wins += 1
                 return True
         else:
             if player_hand.get_value() > dealer_hand.get_value():
-                print("\nYou Win!", emoji.emojize(":grinning_face:"))
+                print(f"\nYou Win! {emoji.emojize(":grinning_face:")}")
                 Game.player_wins += 1
             elif player_hand.get_value() == dealer_hand.get_value():
-                print("\nTie! ", emoji.emojize(":neutral_face:"))
+                print(f"\nTie! {emoji.emojize(":neutral_face:")}")
                 Game.game_ties += 1
             else:
-                print("\nDealer wins.", emoji.emojize(":frowning_face:"))
+                print(f"\nDealer wins. {emoji.emojize(":frowning_face:")}")
                 Game.dealer_wins += 1
 
         return False
 
 
-g = Game()
+g: Game = Game()
 g.play()
 
 # shuffle()
