@@ -21,10 +21,10 @@ class Deck:
     def __init__(self) -> None:
         self.cards: list[Card] = []
         suits: list[str] = [
-            "Spades " + emoji.emojize(":spade_suit:"),
-            "Clubs " + emoji.emojize(":club_suit:"),
-            "Hearts " + emoji.emojize(":heart_suit:"),
-            "Diamonds " + emoji.emojize(":diamond_suit:"),
+            f"Spades {emoji.emojize(":spade_suit:")}",
+            f"Clubs {emoji.emojize(":club_suit:")}",
+            f"Hearts {emoji.emojize(":heart_suit:")}",
+            f"Diamonds {emoji.emojize(":diamond_suit:")}",
         ]
         ranks: list[RankValue] = [
             {"rank": "A", "value": 11},
@@ -108,6 +108,10 @@ class Hand:
 
 
 class Game:
+    dealer_wins: int = 0
+    player_wins: int = 0
+    game_ties: int = 0
+
     def play(self) -> None:
         game_number: int = 0
         games_to_play: int = 0
@@ -180,6 +184,14 @@ class Game:
 
             self.check_winner(player_hand, dealer_hand, True)
 
+        print("\n")
+        print("-" * 30)
+        print("Total Wins")
+        print(f"Player: {Game.player_wins}")
+        print(f"Dealer: {Game.dealer_wins}")
+        print(f"Ties: {Game.game_ties}")
+        print("-" * 30)
+
         print("\nThanks for playing!")
 
     def check_winner(
@@ -188,31 +200,39 @@ class Game:
         if not game_over:
             if player_hand.get_value() > 21:
                 print("You busted. Dealer wins!", emoji.emojize(":frowning_face:"))
+                Game.dealer_wins += 1
                 return True
             elif dealer_hand.get_value() > 21:
                 print("Dealer busted. You win!", emoji.emojize(":grinning_face:"))
+                Game.player_wins += 1
                 return True
             elif dealer_hand.is_blackjack() and player_hand.is_blackjack():
                 print(
                     "Both players have BLACKJACK! Tie!", emoji.emojize(":neutral_face:")
                 )
+                Game.game_ties += 1
                 return True
             elif player_hand.is_blackjack():
                 print("You have BLACKJACK! You win!", emoji.emojize(":party_popper:"))
+                Game.player_wins += 1
                 return True
             elif dealer_hand.is_blackjack():
                 print(
                     "Dealer has BLACKJACK! Dealer wins!",
                     emoji.emojize(":face_with_symbols_on_mouth:"),
                 )
+                Game.dealer_wins += 1
                 return True
         else:
             if player_hand.get_value() > dealer_hand.get_value():
                 print("\nYou Win!", emoji.emojize(":grinning_face:"))
+                Game.player_wins += 1
             elif player_hand.get_value() == dealer_hand.get_value():
                 print("\nTie! ", emoji.emojize(":neutral_face:"))
+                Game.game_ties += 1
             else:
                 print("\nDealer wins.", emoji.emojize(":frowning_face:"))
+                Game.dealer_wins += 1
 
         return False
 
